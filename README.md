@@ -6,7 +6,7 @@ http://localhost:3000/assets 進入資產列表頁面
 ```bash
 cd /path/to/redmine
 cd plugins
-git clone https://github.com/ntust.asset.manager ntust_asset_manager
+git clone https://github.com/zyx1121/ntust.asset.manager ntust_asset_manager
 ```
 
 ## 新增資產
