@@ -1,9 +1,3 @@
-# Plugin's routes
-# See: http://guides.rubyonrails.org/routing.html
-
-RedmineApp::Application.routes.draw do
-  scope '/ntust_asset_manager' do
-    resources :assets, only: [:create, :update, :index, :show], defaults: { format: 'json' }
-    match '/assets/*path', to: 'assets#options', via: :options
-  end
-end
+get 'assets', to: 'assets#index'
+post 'assets/:id/checkout', to: 'assets#checkout', as: 'checkout_asset'
+post 'assets/:id/checkin', to: 'assets#checkin', as: 'checkin_asset'

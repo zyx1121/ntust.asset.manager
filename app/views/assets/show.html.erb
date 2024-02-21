@@ -1,1 +1,23 @@
-<h2>AssetsController#show</h2>
+<h2><%= @asset.name %> 的詳細信息</h2>
+<p>描述: <%= @asset.description %></p>
+<p>狀態: <%= @asset.status %></p>
+
+<h3>歷史紀錄</h3>
+<table>
+  <thead>
+    <tr>
+      <th>借用日期</th>
+      <th>歸還日期</th>
+      <th>借用人</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @asset_histories.each do |history| %>
+      <tr>
+        <td><%= history.checked_out_at %></td>
+        <td><%= history.returned_at %></td>
+        <td><%= history.user.name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

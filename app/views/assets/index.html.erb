@@ -1,2 +1,34 @@
-<h2>AssetsController#index</h2>
+<h2>資產列表</h2>
 
+<table style="width: 600px; table-layout: fixed;">
+  <colgroup>
+    <col style="width: 20%; text-align: center;">
+    <col style="width: 40%; text-align: center;">
+    <col style="width: 20%; text-align: center;">
+    <col style="width: 20%; text-align: center;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>名稱</th>
+      <th>描述</th>
+      <th>狀態</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @assets.each do |asset| %>
+      <tr>
+        <td style="text-align: center;"><%= asset.name %></td>
+        <td style="text-align: center;"><%= asset.description %></td>
+        <td style="text-align: center;" id="asset-status-<%= asset.id %>"><%= asset.status %></td>
+        <td style="text-align: center;" id="asset-action-<%= asset.id %>">
+          <% if asset.status == 'Available' %>
+            <%= link_to '借用', checkout_asset_path(asset), method: :post, class: 'btn btn-primary', remote: true %>
+          <% elsif asset.status == 'CheckedOut' %>
+            <%= link_to '歸還', checkin_asset_path(asset), method: :post, class: 'btn btn-success', remote: true %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
