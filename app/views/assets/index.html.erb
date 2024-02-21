@@ -1,6 +1,6 @@
 <h2>資產列表</h2>
 
-<table style="width: 600px; table-layout: fixed;">
+<table style="width: 500px; table-layout: fixed;">
   <colgroup>
     <col style="width: 20%; text-align: center;">
     <col style="width: 40%; text-align: center;">
@@ -18,7 +18,7 @@
   <tbody>
     <% @assets.each do |asset| %>
       <tr>
-        <td style="text-align: center;"><%= asset.name %></td>
+        <td style="text-align: center;"><%= link_to asset.name, "/assets/#{asset.id}/show" %></td>
         <td style="text-align: center;"><%= asset.description %></td>
         <td style="text-align: center;" id="asset-status-<%= asset.id %>"><%= asset.status %></td>
         <td style="text-align: center;" id="asset-action-<%= asset.id %>">

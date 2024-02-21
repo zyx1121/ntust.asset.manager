@@ -3,21 +3,30 @@
 <p>狀態: <%= @asset.status %></p>
 
 <h3>歷史紀錄</h3>
-<table>
-  <thead>
-    <tr>
-      <th>借用日期</th>
-      <th>歸還日期</th>
-      <th>借用人</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @asset_histories.each do |history| %>
+<% if @asset_histories.present? %>
+  <table style="width: 500px; table-layout: fixed;">
+    <colgroup>
+      <col style="width: 35%; text-align: center;">
+      <col style="width: 35%; text-align: center;">
+      <col style="width: 30%; text-align: center;">
+    </colgroup>
+    <thead>
       <tr>
-        <td><%= history.checked_out_at %></td>
-        <td><%= history.returned_at %></td>
-        <td><%= history.user.name %></td>
+        <th>借用日期</th>
+        <th>歸還日期</th>
+        <th>借用人</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @asset_histories.each do |history| %>
+        <tr>
+          <td style="text-align: center;"><%= history.borrowed_at.strftime("%Y/%m/%d/ %H:%M") %></td>
+          <td style="text-align: center;"><%= history.returned_at&.strftime("%Y/%m/%d/ %H:%M") %></td>
+          <td style="text-align: center;"><%= history.user&.name || "未知用戶" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>沒有找到任何歷史紀錄。</p>
+<% end %>
