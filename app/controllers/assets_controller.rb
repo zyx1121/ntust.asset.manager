@@ -13,38 +13,43 @@ class AssetsController < ApplicationController
 
   def checkout
     @asset = Asset.find(params[:id])
-    if @asset.update(status: 'CheckedOut')
-      history = @asset.asset_histories.create(user_id: current_user.id, borrowed_at: Time.current)
-      Rails.logger.debug "AssetHistory errors: #{history.errors.full_messages}" unless history.persisted?
+    # 檢查是否有未歸還的資產
+    if @asset.asset_histories.where(returned_at: nil).exists?
       respond_to do |format|
-        format.html { redirect_to assets_path, notice: '資產已借出' }
-        format.js
+        format.html { redirect_to assets_path, alert: '該資產尚有未歸還的記錄，無法借用' }
+      end
+    else
+      if @asset.update(status: 'CheckedOut')
+        @asset.asset_histories.create(user_id: current_user.id, borrowed_at: Time.current)
+        respond_to do |format|
+          format.html { redirect_to assets_path, notice: '資產已借出' }
+          format.js
+        end
       end
     end
   end
 
+
   def checkin
     @asset = Asset.find(params[:id])
-    # 找到最後一條借出記錄，且尚未歸還的
     last_history = @asset.asset_histories.where(returned_at: nil).last
 
-    # 檢查是否存在一條歷史記錄，且當前用戶是該記錄的借用人
     if last_history.present? && last_history.user_id == current_user.id
-      # 如果條件滿足，更新歷史記錄和資產狀態
-      last_history.update(returned_at: Time.current)
-      @asset.update(status: 'Available')
-      notice = '資產已歸還'
+      if @asset.update(status: 'Available')
+        last_history.update(returned_at: Time.current)
+        # 成功歸還的邏輯
+        respond_to do |format|
+          format.html { redirect_to assets_path, notice: '資產已歸還' }
+          format.js
+        end
+      end
     else
-      # 如果不滿足，設置一個錯誤消息
-      notice = '只有借用人才能歸還資產'
-    end
-
-    respond_to do |format|
-      format.html { redirect_to assets_path, notice: notice }
-      format.js
+      # 錯誤處理，比如當前用戶不是借用人
+      respond_to do |format|
+        format.html { redirect_to assets_path, alert: '只有借用人才能歸還該資產' }
+      end
     end
   end
-
 
   private
 

@@ -2,6 +2,12 @@
 <p>描述: <%= @asset.description %></p>
 <p>狀態: <%= @asset.status %></p>
 
+<% if @asset.status == 'Available' %>
+  <%= button_to '借用', checkout_asset_path(@asset), method: :post, class: 'btn btn-primary', form: {data: {turbo: false}} %>
+<% elsif @asset.status == 'CheckedOut' %>
+  <%= button_to '歸還', checkin_asset_path(@asset), method: :post, class: 'btn btn-success', form: {data: {turbo: false}} %>
+<% end %>
+
 <h3>歷史紀錄</h3>
 <% if @asset_histories.present? %>
   <table style="width: 500px; table-layout: fixed;">

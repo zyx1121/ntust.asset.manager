@@ -1,2 +1,0 @@
-$("#asset-status-<%= @asset.id %>").text("Available");
-$("#asset-action-<%= @asset.id %>").html("<%= j link_to '借用', checkout_asset_path(@asset), method: :post, class: 'btn btn-primary', remote: true %>");

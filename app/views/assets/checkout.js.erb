@@ -1,2 +1,0 @@
-$("#asset-status-<%= @asset.id %>").text("CheckedOut");
-$("#asset-action-<%= @asset.id %>").html("<%= j link_to '歸還', checkin_asset_path(@asset), method: :post, class: 'btn btn-success', remote: true %>");
