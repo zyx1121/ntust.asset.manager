@@ -26,9 +26,9 @@
     <tbody>
       <% @asset_histories.each do |history| %>
         <tr>
-          <td style="text-align: center;"><%= history.borrowed_at.strftime("%Y/%m/%d/ %H:%M") %></td>
-          <td style="text-align: center;"><%= history.returned_at&.strftime("%Y/%m/%d/ %H:%M") %></td>
-          <td style="text-align: center;"><%= history.user&.name || "未知用戶" %></td>
+          <td style="text-align: center;"><%= history.borrowed_at %></td>
+          <td style="text-align: center;"><%= history.returned_at %></td>
+          <td style="text-align: center;"><%= history.user.name %></td>
         </tr>
       <% end %>
     </tbody>

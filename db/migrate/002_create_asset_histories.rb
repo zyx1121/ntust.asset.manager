@@ -1,4 +1,4 @@
-class CreateAssetHistories < ActiveRecord::Migration[6.1]
+class CreateAssetHistories < ActiveRecord::Migration
   def change
     create_table :asset_histories do |t|
       t.bigint :asset_id
